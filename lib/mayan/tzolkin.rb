@@ -2,24 +2,30 @@
 
 module Mayan
   class Tzolkin
-    class Glyph
-      attr_reader :name
-
-      def initialize(name)
-        @name = name
-      end
-    end
-
-    class Date
-      attr_reader :number, :glyph
-
-      def initialize(number, glyph)
-        raise ArgumentError, "number must be between 1 and 13" unless number.between?(1, 13)
-        raise ArgumentError, "glyph must be a Tzolkin::Glyph" unless glyph.is_a?(Glyph)
-
-        @number = number
-        @glyph = glyph
-      end
-    end
+    GLYPHS = [
+      "Imix'",
+      "Ik'",
+      "Ak'bal",
+      "K'an",
+      "Chikchan",
+      "Kimi",
+      "Manik'",
+      "Lamat",
+      "Muluk",
+      "Ok",
+      "Chuwen",
+      "Eb",
+      "Ben",
+      "Hix",
+      "Men",
+      "K'ib'",
+      "Kaban",
+      "Etz'nab'",
+      "Kawak",
+      "Ajaw"
+    ].freeze
   end
 end
+
+require_relative "tzolkin/glyph"
+require_relative "tzolkin/date"
