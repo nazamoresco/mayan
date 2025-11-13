@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mayan_calendar (0.1.0)
+    mayan (0.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -60,7 +60,7 @@ PLATFORMS
   x86_64-darwin-22
 
 DEPENDENCIES
-  mayan_calendar!
+  mayan!
   minitest (~> 5.16)
   rake (~> 13.0)
   standard (~> 1.3)

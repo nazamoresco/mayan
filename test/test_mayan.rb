@@ -2,8 +2,8 @@
 
 require "test_helper"
 
-class TestMayanCalendar < Minitest::Test
+class TestMayan < Minitest::Test
   def test_that_it_has_a_version_number
-    refute_nil ::MayanCalendar::VERSION
+    refute_nil ::Mayan::VERSION
   end
 end
