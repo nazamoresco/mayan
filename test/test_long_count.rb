@@ -81,4 +81,25 @@ class TestLongCount < Minitest::Test
     # 144,000 + 14,400 + 1,080 + 80 + 5 = 159,565
     assert_equal 159_565, date.days
   end
+
+  def test_to_gregorian_epoch
+    date = Mayan::LongCount::Date.new(0, 0, 0, 0, 0)
+    gregorian = date.to_gregorian
+    # 0.0.0.0.0 = September 6, 3114 BCE (proleptic Gregorian calendar)
+    assert_equal Date.new(-3113, 9, 6), gregorian
+  end
+
+  def test_to_gregorian_13_baktun
+    date = Mayan::LongCount::Date.new(13, 0, 0, 0, 0)
+    gregorian = date.to_gregorian
+    # 13.0.0.0.0 = December 21, 2012 (the famous "end of the world" date)
+    assert_equal Date.new(2012, 12, 21), gregorian
+  end
+
+  def test_to_gregorian_modern_date
+    date = Mayan::LongCount::Date.new(13, 0, 10, 0, 0)
+    gregorian = date.to_gregorian
+    # 13.0.10.0.0 should be 10 tuns (3600 days) after 12/21/2012
+    assert_equal Date.new(2022, 10, 30), gregorian
+  end
 end

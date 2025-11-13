@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "date"
+
 module Mayan
   class LongCount
     class Date
@@ -20,6 +22,12 @@ module Mayan
 
       def days
         (@baktun * 144_000) + (@katun * 7_200) + (@tun * 360) + (@winal * 20) + @kin
+      end
+
+      def to_gregorian
+        # GMT correlation constant: 0.0.0.0.0 = JDN 584283 (September 6, 3114 BCE)
+        julian_day_number = 584_283 + days
+        ::Date.jd(julian_day_number)
       end
     end
   end
