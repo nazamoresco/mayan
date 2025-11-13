@@ -17,6 +17,10 @@ module Mayan
         @winal = winal
         @kin = kin
       end
+
+      def days
+        (@baktun * 144_000) + (@katun * 7_200) + (@tun * 360) + (@winal * 20) + @kin
+      end
     end
   end
 end
