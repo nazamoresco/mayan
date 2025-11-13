@@ -102,4 +102,38 @@ class TestLongCount < Minitest::Test
     # 13.0.10.0.0 should be 10 tuns (3600 days) after 12/21/2012
     assert_equal Date.new(2022, 10, 30), gregorian
   end
+
+  def test_to_tzolkin_epoch
+    long_count = Mayan::LongCount::Date.new(0, 0, 0, 0, 0)
+    tzolkin = long_count.to_tzolkin
+    # 0.0.0.0.0 = 4 Ajaw
+    assert_equal 4, tzolkin.number
+    assert_equal "Ajaw", tzolkin.glyph.name
+  end
+
+  def test_to_tzolkin_day_one
+    long_count = Mayan::LongCount::Date.new(0, 0, 0, 0, 1)
+    tzolkin = long_count.to_tzolkin
+    # 0.0.0.0.1 = 5 Imix'
+    assert_equal 5, tzolkin.number
+    assert_equal "Imix'", tzolkin.glyph.name
+  end
+
+  def test_to_tzolkin_13_baktun
+    long_count = Mayan::LongCount::Date.new(13, 0, 0, 0, 0)
+    tzolkin = long_count.to_tzolkin
+    # 13.0.0.0.0 = 4 Ajaw (completes exactly 7200 Tzolkin cycles)
+    assert_equal 4, tzolkin.number
+    assert_equal "Ajaw", tzolkin.glyph.name
+  end
+
+  def test_to_tzolkin_cycle_completes
+    long_count = Mayan::LongCount::Date.new(0, 0, 1, 6, 0)
+    tzolkin = long_count.to_tzolkin
+    # 0.0.1.6.0 = 480 days = 4 Ajaw (480 % 260 = 220, but let's calculate)
+    # ((3 + 480) % 13) + 1 = (483 % 13) + 1 = (2) + 1 = 3
+    # (19 + 480) % 20 = 499 % 20 = 19 = Ajaw
+    assert_equal 3, tzolkin.number
+    assert_equal "Ajaw", tzolkin.glyph.name
+  end
 end

@@ -29,6 +29,19 @@ module Mayan
         julian_day_number = 584_283 + days
         ::Date.jd(julian_day_number)
       end
+
+      def to_tzolkin
+        # 0.0.0.0.0 = 4 Ajaw in the Tzolkin calendar
+        # Day number cycles 1-13, starting at 4 for day 0
+        # Glyph cycles through 20 glyphs, starting at Ajaw (index 19) for day 0
+        day_count = days
+
+        tzolkin_number = ((3 + day_count) % 13) + 1
+        glyph_index = (19 + day_count) % 20
+
+        glyph = Tzolkin::Glyph.new(Tzolkin::GLYPHS[glyph_index])
+        Tzolkin::Date.new(tzolkin_number, glyph)
+      end
     end
   end
 end
