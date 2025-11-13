@@ -19,4 +19,24 @@ class TestLongCount < Minitest::Test
     assert_equal 0, date.winal
     assert_equal 0, date.kin
   end
+
+  def test_kin_validation
+    assert_raises(ArgumentError) { Mayan::LongCount::Date.new(0, 0, 0, 0, 20) }
+    assert_raises(ArgumentError) { Mayan::LongCount::Date.new(0, 0, 0, 0, -1) }
+  end
+
+  def test_winal_validation
+    assert_raises(ArgumentError) { Mayan::LongCount::Date.new(0, 0, 0, 18, 0) }
+    assert_raises(ArgumentError) { Mayan::LongCount::Date.new(0, 0, 0, -1, 0) }
+  end
+
+  def test_tun_validation
+    assert_raises(ArgumentError) { Mayan::LongCount::Date.new(0, 0, 20, 0, 0) }
+    assert_raises(ArgumentError) { Mayan::LongCount::Date.new(0, 0, -1, 0, 0) }
+  end
+
+  def test_katun_validation
+    assert_raises(ArgumentError) { Mayan::LongCount::Date.new(0, 20, 0, 0, 0) }
+    assert_raises(ArgumentError) { Mayan::LongCount::Date.new(0, -1, 0, 0, 0) }
+  end
 end
