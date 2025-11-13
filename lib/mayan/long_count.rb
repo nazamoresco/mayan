@@ -42,6 +42,22 @@ module Mayan
         glyph = Tzolkin::Glyph.new(Tzolkin::GLYPHS[glyph_index])
         Tzolkin::Date.new(tzolkin_number, glyph)
       end
+
+      def to_haab
+        # 0.0.0.0.0 = 8 Kumk'u in the Haab calendar
+        # Kumk'u is the 18th month (index 17)
+        # 8 Kumk'u is 348 days into the Haab year (17 * 20 + 8)
+        day_count = days
+
+        haab_day_in_cycle = (day_count + 348) % 365
+
+        # Convert day position to month and day
+        month_index = haab_day_in_cycle / 20
+        day_of_month = haab_day_in_cycle % 20
+
+        glyph = Haab::Glyph.new(Haab::GLYPHS[month_index])
+        Haab::Date.new(day_of_month, glyph)
+      end
     end
   end
 end

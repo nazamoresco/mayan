@@ -136,4 +136,49 @@ class TestLongCount < Minitest::Test
     assert_equal 3, tzolkin.number
     assert_equal "Ajaw", tzolkin.glyph.name
   end
+
+  def test_to_haab_epoch
+    long_count = Mayan::LongCount::Date.new(0, 0, 0, 0, 0)
+    haab = long_count.to_haab
+    # 0.0.0.0.0 = 8 Kumk'u
+    assert_equal 8, haab.number
+    assert_equal "Kumk'u", haab.glyph.name
+  end
+
+  def test_to_haab_day_one
+    long_count = Mayan::LongCount::Date.new(0, 0, 0, 0, 1)
+    haab = long_count.to_haab
+    # 0.0.0.0.1 = 9 Kumk'u
+    assert_equal 9, haab.number
+    assert_equal "Kumk'u", haab.glyph.name
+  end
+
+  def test_to_haab_into_wayeb
+    long_count = Mayan::LongCount::Date.new(0, 0, 0, 0, 12)
+    haab = long_count.to_haab
+    # 0.0.0.0.12 = 0 Wayeb' (12 days after 8 Kumk'u)
+    assert_equal 0, haab.number
+    assert_equal "Wayeb'", haab.glyph.name
+  end
+
+  def test_to_haab_full_cycle
+    long_count = Mayan::LongCount::Date.new(0, 0, 1, 0, 5)
+    haab = long_count.to_haab
+    # 0.0.1.0.5 = 365 days after epoch
+    # (365 + 348) % 365 = 713 % 365 = 348
+    # 348 / 20 = 17 (Kumk'u), 348 % 20 = 8
+    assert_equal 8, haab.number
+    assert_equal "Kumk'u", haab.glyph.name
+  end
+
+  def test_to_haab_13_baktun
+    long_count = Mayan::LongCount::Date.new(13, 0, 0, 0, 0)
+    haab = long_count.to_haab
+    # 13.0.0.0.0 = 3 K'ank'in
+    # 1,872,000 days
+    # (1872000 + 348) % 365 = 1872348 % 365 = 263
+    # 263 / 20 = 13 (K'ank'in), 263 % 20 = 3
+    assert_equal 3, haab.number
+    assert_equal "K'ank'in", haab.glyph.name
+  end
 end
