@@ -17,6 +17,10 @@ module Mayan
         @number = number
         @glyph = glyph
       end
+
+      def to_s
+        "#{@number} #{@glyph.name}"
+      end
     end
   end
 end

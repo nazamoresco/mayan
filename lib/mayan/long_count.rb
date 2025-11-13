@@ -7,6 +7,29 @@ module Mayan
     class Date
       attr_reader :baktun, :katun, :tun, :winal, :kin
 
+      def self.from_gregorian(gregorian_date)
+        # Convert Gregorian date to Julian Day Number
+        jdn = gregorian_date.jd
+
+        # GMT correlation constant: 0.0.0.0.0 = JDN 584283
+        days_since_epoch = jdn - 584_283
+
+        # Convert days to Long Count components
+        baktun = days_since_epoch / 144_000
+        remaining = days_since_epoch % 144_000
+
+        katun = remaining / 7_200
+        remaining = remaining % 7_200
+
+        tun = remaining / 360
+        remaining = remaining % 360
+
+        winal = remaining / 20
+        kin = remaining % 20
+
+        new(baktun, katun, tun, winal, kin)
+      end
+
       def initialize(baktun, katun, tun, winal, kin)
         raise ArgumentError, "kin must be between 0 and 19" unless kin.between?(0, 19)
         raise ArgumentError, "winal must be between 0 and 17" unless winal.between?(0, 17)
@@ -57,6 +80,10 @@ module Mayan
 
         glyph = Haab::Glyph.new(Haab::GLYPHS[month_index])
         Haab::Date.new(day_of_month, glyph)
+      end
+
+      def to_s
+        "#{@baktun}.#{@katun}.#{@tun}.#{@winal}.#{@kin}"
       end
     end
   end

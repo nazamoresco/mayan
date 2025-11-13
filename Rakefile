@@ -8,3 +8,10 @@ Minitest::TestTask.create
 require "standard/rake"
 
 task default: %i[test standard]
+
+task :console do
+  require "irb"
+  require "mayan"
+  ARGV.clear
+  IRB.start
+end

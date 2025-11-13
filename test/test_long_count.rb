@@ -181,4 +181,43 @@ class TestLongCount < Minitest::Test
     assert_equal 3, haab.number
     assert_equal "K'ank'in", haab.glyph.name
   end
+
+  def test_from_gregorian_epoch
+    gregorian = Date.new(-3113, 9, 6)
+    long_count = Mayan::LongCount::Date.from_gregorian(gregorian)
+    assert_equal 0, long_count.baktun
+    assert_equal 0, long_count.katun
+    assert_equal 0, long_count.tun
+    assert_equal 0, long_count.winal
+    assert_equal 0, long_count.kin
+  end
+
+  def test_from_gregorian_13_baktun
+    gregorian = Date.new(2012, 12, 21)
+    long_count = Mayan::LongCount::Date.from_gregorian(gregorian)
+    assert_equal 13, long_count.baktun
+    assert_equal 0, long_count.katun
+    assert_equal 0, long_count.tun
+    assert_equal 0, long_count.winal
+    assert_equal 0, long_count.kin
+  end
+
+  def test_from_gregorian_round_trip
+    original = Mayan::LongCount::Date.new(13, 0, 10, 5, 12)
+    gregorian = original.to_gregorian
+    converted = Mayan::LongCount::Date.from_gregorian(gregorian)
+
+    assert_equal original.baktun, converted.baktun
+    assert_equal original.katun, converted.katun
+    assert_equal original.tun, converted.tun
+    assert_equal original.winal, converted.winal
+    assert_equal original.kin, converted.kin
+  end
+
+  def test_from_gregorian_today
+    today = Date.new(2024, 11, 13)
+    long_count = Mayan::LongCount::Date.from_gregorian(today)
+    # Verify it returns to the same date
+    assert_equal today, long_count.to_gregorian
+  end
 end
