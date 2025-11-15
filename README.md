@@ -63,9 +63,13 @@ puts tzolkin.to_s  # => "4 Ajaw"
 puts tzolkin.number  # => 4
 puts tzolkin.glyph.name  # => "Ajaw"
 
-# Create a Tzolkin date directly
+# Create a Tzolkin date directly (with Glyph object)
 glyph = Mayan::Tzolkin::Glyph.new("Imix'")
 tzolkin = Mayan::Tzolkin::Date.new(1, glyph)
+puts tzolkin.to_s  # => "1 Imix'"
+
+# Or pass a string directly
+tzolkin = Mayan::Tzolkin::Date.new(1, "Imix'")
 puts tzolkin.to_s  # => "1 Imix'"
 ```
 
@@ -85,9 +89,13 @@ puts haab.to_s  # => "3 K'ank'in"
 puts haab.number  # => 3
 puts haab.glyph.name  # => "K'ank'in"
 
-# Create a Haab date directly
+# Create a Haab date directly (with Glyph object)
 glyph = Mayan::Haab::Glyph.new("Pop")
 haab = Mayan::Haab::Date.new(0, glyph)
+puts haab.to_s  # => "0 Pop"
+
+# Or pass a string directly
+haab = Mayan::Haab::Date.new(0, "Pop")
 puts haab.to_s  # => "0 Pop"
 ```
 
@@ -119,7 +127,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/mayan_calendar. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/mayan_calendar/blob/main/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/nazamoresco/mayan. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/nazamoresco/mayan/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
@@ -127,4 +135,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the MayanCalendar project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/mayan_calendar/blob/main/CODE_OF_CONDUCT.md).
+Everyone interacting in the Mayan project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/nazamoresco/mayan/blob/main/CODE_OF_CONDUCT.md).
