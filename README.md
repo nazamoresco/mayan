@@ -63,9 +63,13 @@ puts tzolkin.to_s  # => "4 Ajaw"
 puts tzolkin.number  # => 4
 puts tzolkin.glyph.name  # => "Ajaw"
 
-# Create a Tzolkin date directly
+# Create a Tzolkin date directly (with Glyph object)
 glyph = Mayan::Tzolkin::Glyph.new("Imix'")
 tzolkin = Mayan::Tzolkin::Date.new(1, glyph)
+puts tzolkin.to_s  # => "1 Imix'"
+
+# Or pass a string directly
+tzolkin = Mayan::Tzolkin::Date.new(1, "Imix'")
 puts tzolkin.to_s  # => "1 Imix'"
 ```
 
@@ -85,9 +89,13 @@ puts haab.to_s  # => "3 K'ank'in"
 puts haab.number  # => 3
 puts haab.glyph.name  # => "K'ank'in"
 
-# Create a Haab date directly
+# Create a Haab date directly (with Glyph object)
 glyph = Mayan::Haab::Glyph.new("Pop")
 haab = Mayan::Haab::Date.new(0, glyph)
+puts haab.to_s  # => "0 Pop"
+
+# Or pass a string directly
+haab = Mayan::Haab::Date.new(0, "Pop")
 puts haab.to_s  # => "0 Pop"
 ```
 

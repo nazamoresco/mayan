@@ -7,10 +7,17 @@ module Mayan
 
       def initialize(number, glyph)
         raise ArgumentError, "number must be between 1 and 13" unless number.between?(1, 13)
-        raise ArgumentError, "glyph must be a Tzolkin::Glyph" unless glyph.is_a?(Glyph)
+
+        @glyph = case glyph
+                 when Glyph
+                   glyph
+                 when String
+                   Glyph.new(glyph)
+                 else
+                   raise ArgumentError, "glyph must be a Tzolkin::Glyph or String"
+                 end
 
         @number = number
-        @glyph = glyph
       end
 
       def to_s

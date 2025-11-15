@@ -6,7 +6,14 @@ module Mayan
       attr_reader :number, :glyph
 
       def initialize(number, glyph)
-        raise ArgumentError, "glyph must be a Haab::Glyph" unless glyph.is_a?(Glyph)
+        glyph = case glyph
+                when Glyph
+                  glyph
+                when String
+                  Glyph.new(glyph)
+                else
+                  raise ArgumentError, "glyph must be a Haab::Glyph or String"
+                end
 
         max_day = glyph.name == "Wayeb'" ? 4 : 19
 
