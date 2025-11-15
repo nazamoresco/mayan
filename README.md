@@ -1,28 +1,115 @@
-# MayanCalendar
+# Mayan
 
-TODO: Delete this and the text below, and describe your gem
+A Ruby gem for performing calculations and conversions with the ancient Mayan calendar system. This gem supports the three main components of the Mayan calendar: the Long Count, Tzolkin (sacred calendar), and Haab (solar calendar).
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/mayan_calendar`. To experiment with that code, run `bin/console` for an interactive prompt.
+## Features
+
+- Convert between Gregorian dates and Mayan Long Count dates
+- Calculate Tzolkin dates (260-day sacred calendar)
+- Calculate Haab dates (365-day solar calendar)
+- Full support for Mayan calendar glyphs and day names
+- Accurate conversions using the GMT correlation constant
 
 ## Installation
-
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
 
 Install the gem and add to the application's Gemfile by executing:
 
 ```bash
-bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+bundle add mayan
 ```
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
 ```bash
-gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+gem install mayan
 ```
 
 ## Usage
 
-TODO: Write usage instructions here
+### Long Count Calendar
+
+The Long Count is the Mayan method of tracking long periods of time, represented as five numbers (baktun.katun.tun.winal.kin).
+
+```ruby
+require 'mayan'
+
+# Convert a Gregorian date to Long Count
+gregorian_date = Date.new(2012, 12, 21)
+long_count = Mayan::LongCount::Date.from_gregorian(gregorian_date)
+puts long_count.to_s  # => "13.0.0.0.0"
+
+# Create a Long Count date directly
+long_count = Mayan::LongCount::Date.new(13, 0, 0, 0, 0)
+
+# Convert Long Count back to Gregorian
+gregorian = long_count.to_gregorian
+puts gregorian  # => #<Date: 2012-12-21>
+
+# Get total days since Mayan epoch
+puts long_count.days  # => 1872000
+```
+
+### Tzolkin Calendar
+
+The Tzolkin is a 260-day sacred calendar combining 13 numbers with 20 day names.
+
+```ruby
+# Convert Long Count to Tzolkin
+long_count = Mayan::LongCount::Date.from_gregorian(Date.new(2012, 12, 21))
+tzolkin = long_count.to_tzolkin
+puts tzolkin.to_s  # => "4 Ajaw"
+
+# Access Tzolkin components
+puts tzolkin.number  # => 4
+puts tzolkin.glyph.name  # => "Ajaw"
+
+# Create a Tzolkin date directly
+glyph = Mayan::Tzolkin::Glyph.new("Imix'")
+tzolkin = Mayan::Tzolkin::Date.new(1, glyph)
+puts tzolkin.to_s  # => "1 Imix'"
+```
+
+Available Tzolkin day names: Imix', Ik', Ak'bal, K'an, Chikchan, Kimi, Manik', Lamat, Muluk, Ok, Chuwen, Eb, Ben, Hix, Men, K'ib', Kaban, Etz'nab', Kawak, Ajaw
+
+### Haab Calendar
+
+The Haab is a 365-day solar calendar with 18 months of 20 days plus a 5-day month called Wayeb'.
+
+```ruby
+# Convert Long Count to Haab
+long_count = Mayan::LongCount::Date.from_gregorian(Date.new(2012, 12, 21))
+haab = long_count.to_haab
+puts haab.to_s  # => "3 K'ank'in"
+
+# Access Haab components
+puts haab.number  # => 3
+puts haab.glyph.name  # => "K'ank'in"
+
+# Create a Haab date directly
+glyph = Mayan::Haab::Glyph.new("Pop")
+haab = Mayan::Haab::Date.new(0, glyph)
+puts haab.to_s  # => "0 Pop"
+```
+
+Available Haab month names: Pop, Wo', Sip, Sotz', Sek, Xul, Yaxk'in', Mol, Ch'en, Yax, Sak', Keh, Mak, K'ank'in, Muwan', Pax, K'ayab', Kumk'u, Wayeb'
+
+### Complete Example
+
+```ruby
+require 'mayan'
+require 'date'
+
+# Convert today's date to all three Mayan calendar formats
+gregorian = Date.today
+long_count = Mayan::LongCount::Date.from_gregorian(gregorian)
+tzolkin = long_count.to_tzolkin
+haab = long_count.to_haab
+
+puts "Gregorian: #{gregorian}"
+puts "Long Count: #{long_count}"
+puts "Tzolkin: #{tzolkin}"
+puts "Haab: #{haab}"
+```
 
 ## Development
 
